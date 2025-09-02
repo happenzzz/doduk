@@ -1,220 +1,409 @@
-# Create a downloadable HTML file for the user
-html = """<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>도덕과 수업모형 비교표 — Presentation</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0f172a;        /* slate-900 */
-    --panel:#ffffff;
-    --ink:#0b1020;       /* deep ink */
-    --muted:#475569;     /* slate-600 */
-    --line:#e2e8f0;      /* slate-200 */
-    --a1:#f97316;        /* orange-500 */
-    --a2:#10b981;        /* emerald-500 */
-    --a3:#60a5fa;        /* blue-400 */
-    --a4:#f472b6;        /* pink-400 */
-    --radius:28px;
-    --shadow:0 20px 60px rgba(2,6,23,.25);
-    --fs-body:clamp(18px, 1.4vw, 24px);
-    --fs-h1:clamp(34px, 4.2vw, 64px);
-    --fs-h2:clamp(18px, 1.6vw, 26px);
-    --fs-th:clamp(16px, 1.2vw, 20px);
-  }
-  html,body{height:100%;margin:0;background:var(--bg);}
-  body{font-family:'Noto Sans KR',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);display:flex;align-items:center;justify-content:center;}
-  .wrap{width:min(1400px, 94vw);margin:4vh auto;}
-  .stage{background:var(--panel);border-radius:var(--radius);box-shadow:var(--shadow);padding:3.2rem 3rem;}
-  header h1{font-size:var(--fs-h1);margin:0 0 .6rem;letter-spacing:-.02em}
-  header p{margin:.2rem 0 2rem;color:var(--muted);font-size:var(--fs-h2)}
-  .legend{display:flex;gap:.6rem;flex-wrap:wrap;margin:0 0 1.2rem}
-  .legend span{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .7rem;border:1px solid var(--line);border-radius:999px;font-size:14px}
-  .dot{width:.85rem;height:.85rem;border-radius:999px;display:inline-block}
-  .tbl{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:20px;border:1px solid var(--line)}
-  .tbl th,.tbl td{vertical-align:top;text-align:left;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:1rem 1rem;line-height:1.6}
-  .tbl th{font-weight:800;font-size:var(--fs-th);letter-spacing:.01em;background:#fafafa}
-  .tbl thead th{position:sticky;top:0;z-index:2}
-  .tbl thead th.model{color:#fff}
-  .tbl thead th.model:nth-child(2){background:linear-gradient(180deg, rgba(249,115,22,.95), rgba(249,115,22,.85));}
-  .tbl thead th.model:nth-child(3){background:linear-gradient(180deg, rgba(16,185,129,.95), rgba(16,185,129,.85));}
-  .tbl thead th.model:nth-child(4){background:linear-gradient(180deg, rgba(96,165,250,.95), rgba(96,165,250,.85));}
-  .tbl thead th.model:nth-child(5){background:linear-gradient(180deg, rgba(244,114,182,.95), rgba(244,114,182,.85));}
-  .tbl td{font-size:var(--fs-body);background:#fff}
-  .tbl tr:nth-child(even) td{background:#fcfcfd}
-  .tbl th:first-child{width:16rem}
-  .tbl td b{font-weight:800}
-  .badge{display:inline-block;font-size:.8em;font-weight:700;padding:.18em .55em;border-radius:999px;border:1px solid #00000014}
-  .a1{background:rgba(249,115,22,.1)}
-  .a2{background:rgba(16,185,129,.1)}
-  .a3{background:rgba(96,165,250,.12)}
-  .a4{background:rgba(244,114,182,.12)}
-  ul{margin:.3rem 0 .2rem 1.2rem;padding:0}
-  li{margin:.1rem 0 .1rem}
-  .foot{margin:1.2rem 0 0;color:var(--muted);font-size:14px}
-  .note{background:#fff7ed;border:1px dashed #fdba74;padding:.8rem 1rem;border-radius:14px;margin:1rem 0 0}
-  @media (max-width:1100px){
-    .tbl th:first-child{width:12rem}
-  }
-  @media (max-width:860px){
-    .stage{padding:1.4rem 1rem}
-    header h1{line-height:1.18}
-    .tbl th,.tbl td{padding:.85rem .75rem}
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>도덕 4대 수업 모형 — 프레젠테이션 & 비교표</title>
+  <!-- 한국어 세리프 폰트 (함초롱바탕체 우선, 설치되어 있지 않으면 Noto Serif KR 대체) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fff8fb;            /* 은은한 분홍톤 배경 */
+      --panel:#ffffff;         /* 카드/패널 배경 */
+      --ink:#1b1e28;           /* 본문 글자색 */
+      --ink-dim:#4b5563;       /* 보조 글자색 */
+      --brand:#e86e8c;         /* 포인트 색 */
+      --accent:#6ea8ff;        /* 보조 포인트 */
+      --line:#f0e6ef;          /* 경계선 */
+      --slide-w: 1280px;       /* 기준 슬라이드 너비(16:9) */
+      --slide-h: 720px;        /* 기준 슬라이드 높이 */
+      --r: clamp(18px, 2.4vw, 36px);         /* 본문 큰 글자 */
+      --r-sm: clamp(16px, 1.8vw, 28px);      /* 설명 글자 */
+      --r-lg: clamp(28px, 4.6vw, 72px);      /* 제목 */
+      --r-h2: clamp(22px, 3.2vw, 48px);      /* 소제목 */
+      --radius: 28px;
+      --shadow: 0 30px 60px rgba(27,30,40,.08), 0 8px 20px rgba(27,30,40,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);
+      font-family: "HCR Batang", "함초롱바탕", "Hahmlet", "Noto Serif KR", serif;}
+    a{color:var(--brand);text-decoration:none}
+    .app{
+      min-height:100svh; display:flex; flex-direction:column; gap:14px;
+      padding: clamp(10px, 2vw, 24px);
+    }
+    /* 상단 바 */
+    .topbar{
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+    }
+    .title{
+      font-size: clamp(22px, 2.8vw, 44px); font-weight:900; letter-spacing:0.2px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .title .badge{font-size: .6em; background:var(--brand); color:#fff; padding:.25em .6em; border-radius:999px}
+    .controls{display:flex; gap:8px; flex-wrap:wrap}
+    .btn{
+      font: inherit; font-weight:700; border:0; border-radius:14px; padding:.6em 1.0em; cursor:pointer;
+      background:#fff; box-shadow: var(--shadow); color:var(--ink);
+    }
+    .btn[data-active="true"]{background:var(--brand); color:#fff}
+    .btn.ghost{background:transparent; box-shadow:none; border:2px solid var(--brand); color:var(--brand)}
+
+    /* 무대(Stage) : 16:9 영역을 반응형으로 스케일 */
+    .stage-wrap{flex:1; display:grid; place-items:center}
+    .stage{position:relative; width: min(100%, var(--slide-w)); aspect-ratio: 16/9;
+      background: radial-gradient(1200px 800px at 20% -10%, #ffe0ea 0%, transparent 60%), #fff;
+      border-radius: var(--radius); box-shadow: var(--shadow); overflow:hidden;
+    }
+
+    /* 탭(모드) */
+    .mode{position:absolute; inset:0; overflow:auto; padding: clamp(18px, 2.4vw, 32px); display:none}
+    .mode.active{display:block}
+
+    /* 슬라이드 영역 */
+    .slides{height:100%; display:flex; flex-direction:column}
+    .slide{flex:1; display:none; gap:16px}
+    .slide.active{display:flex}
+    .slide .head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; border-bottom:2px solid var(--line); padding-bottom:.3em}
+    .kicker{font-size: var(--r-sm); color:var(--brand); font-weight:800; letter-spacing:.4px}
+    h1{font-size:var(--r-lg); margin:.1em 0 .2em}
+    h2{font-size:var(--r-h2); margin:.2em 0 .2em}
+    .cols{display:grid; grid-template-columns: 1fr 1fr; gap:20px}
+    .card{background:var(--panel); border:1px solid var(--line); border-radius:24px; padding: clamp(12px, 1.7vw, 20px)}
+    .card ul{margin:.2em 0 .2em 1.2em; font-size:var(--r)}
+    .note{font-size:var(--r-sm); color:var(--ink-dim)}
+
+    /* 슬라이드 네비게이션 */
+    .nav{position:absolute; inset:auto 0 14px 0; display:flex; align-items:center; justify-content:center; gap:10px}
+    .nav .dot{width:16px; height:16px; border-radius:50%; background:#eee; box-shadow: inset 0 0 0 2px #ddd; cursor:pointer}
+    .nav .dot.active{background:var(--brand); box-shadow:none}
+    .arrow{position:absolute; top:50%; translate:0 -50%; width:56px; height:56px; border-radius:50%; display:grid; place-items:center;
+      background:#fff; box-shadow:var(--shadow); cursor:pointer; user-select:none}
+    .arrow:hover{scale:1.03}
+    .arrow.left{left:14px}
+    .arrow.right{right:14px}
+
+    /* 비교표 */
+    .table-wrap{height:100%; display:flex; flex-direction:column}
+    .table-wrap h1{margin-bottom:.2em}
+    .grid{width:100%; border-collapse:separate; border-spacing:0; background:var(--panel); border:1px solid var(--line); border-radius:20px; overflow:hidden}
+    .grid th, .grid td{padding: clamp(12px, 1.6vw, 22px); vertical-align:top; border-bottom:1px solid var(--line)}
+    .grid th{background: #fff4f7; font-size: clamp(18px, 2.2vw, 30px); text-align:left}
+    .grid td{font-size: var(--r)}
+    .grid tr:last-child td{border-bottom:0}
+    .tag{display:inline-block; font-size:.9em; font-weight:800; color:#fff; background:var(--brand); padding:.2em .6em; border-radius:999px}
+
+    /* 인쇄 */
+    @media print{
+      .topbar{display:none}
+      .stage{box-shadow:none; border:0;}
+    }
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="stage" role="document" aria-label="도덕과 수업모형 비교표">
-      <header>
-        <h1>도덕과 수업모형 비교표</h1>
-        <p>프레젠테이션용 · 큼직한 글자 · 4개 모형 한눈에</p>
-        <div class="legend" aria-hidden="true">
-          <span><i class="dot" style="background:var(--a1)"></i> 가치분석</span>
-          <span><i class="dot" style="background:var(--a2)"></i> 가치 갈등 해결(법리)</span>
-          <span><i class="dot" style="background:var(--a3)"></i> 합리적 의사결정</span>
-          <span><i class="dot" style="background:var(--a4)"></i> 도덕적 토론(콜버그)</span>
-        </div>
-      </header>
-
-      <div style="overflow:auto; max-height:80vh; border-radius:16px;">
-        <table class="tbl" aria-describedby="도덕과 수업모형 비교표">
-          <colgroup>
-            <col style="width:18rem">
-            <col>
-            <col>
-            <col>
-            <col>
-          </colgroup>
-          <thead>
-            <tr>
-              <th scope="col">항목</th>
-              <th scope="col" class="model">가치분석<br><span class="badge a1">Value Analysis</span></th>
-              <th scope="col" class="model">가치 갈등 해결(법리)<br><span class="badge a2">Jurisprudential</span></th>
-              <th scope="col" class="model">합리적 의사결정<br><span class="badge a3">Rational Decision</span></th>
-              <th scope="col" class="model">도덕적 토론(콜버그)<br><span class="badge a4">Moral Discussion</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">토대·주요 학자</th>
-              <td>
-                <b>Coombs &amp; Meux</b>, Metcalf 계열의 가치분석 전통.
-                <ul>
-                  <li>증거와 <b>가치원리의 정당화</b> 훈련</li>
-                </ul>
-              </td>
-              <td>
-                <b>Oliver &amp; Shaver</b>의 법리적 탐구(시민교육/사회과 기원).
-                <ul>
-                  <li>학생을 ‘<b>재판관</b>’처럼 설정, 공적 쟁점 해석</li>
-                </ul>
-              </td>
-              <td>
-                결정교육(Engle–Frankel) 전통을 도덕과에 수용/개선.
-                <ul>
-                  <li><b>대안–결과–기준</b>의 체계적 비교</li>
-                </ul>
-              </td>
-              <td>
-                <b>Kohlberg</b>의 도덕발달이론 기반 딜레마 토론.
-                <ul>
-                  <li><b>인지적 갈등</b>과 +1 전략</li>
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">목표/핵심 초점</th>
-              <td>
-                개인이 <b>증거</b>와 <b>보편화 가능한 원리</b>로 자신의 입장을 정당화하여 <b>합리적 판단</b>에 도달.
-              </td>
-              <td>
-                공적 쟁점에서 <b>정의·규범·사실·가치</b>를 구분하고 <b>절차적 공정성</b>으로 합리적 합의를 도모.
-              </td>
-              <td>
-                여러 대안의 <b>결과 예측</b>과 <b>선택 기준</b>을 명료화해 <b>최선의 선택</b> 도출.
-              </td>
-              <td>
-                <b>도덕판단력 수준 향상</b>(역할채택·상위 단계와의 접촉).
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">전형적 절차(요지)</th>
-              <td>
-                문제 제시 → 가치문제 확인 → <b>사실 검증</b> → <b>가치원리 검사</b>(새 사례·포함관계·역할교환·보편적 결과) → 입장 수정·의사결정 → 적용.
-              </td>
-              <td>
-                사태 제시 → <b>관련 규범/개념 명료화</b> → <b>사실·용어·가치 쟁점 구분</b> → 입장 제시·반론·수정 → <b>공정한 절차</b>로 잠정 합의.
-              </td>
-              <td>
-                문제 제시·분석 → <b>규범 의미·타당성 검토</b> → <b>여러 대안과 결과 비교</b> → 선택·정당화 → 필요시 수정·잠정 결정.
-              </td>
-              <td>
-                딜레마 제시 → 도입(문제 부각·왜 질문·상황 복잡화) → 심화(<b>심층질문·역할채택</b>) → 실천 동기 강화·확대 적용.
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">잘 맞는 주제</th>
-              <td>
-                생활/학급 맥락의 개인적 선택과 판단(예: 정직 vs 배려, 기기 사용 규칙).
-              </td>
-              <td>
-                표현의 자유, 환경/안전, 지역 공익 등 <b>공적 정책</b> 이슈.
-              </td>
-              <td>
-                학급 규칙 개정, 온라인 행동 선택 등 <b>선택지 비교형 과제</b>.
-              </td>
-              <td>
-                정의·책임·배려가 충돌하는 <b>도덕 딜레마</b>.
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">주의점</th>
-              <td>
-                ‘중립적 자료’ 전제, <b>원리검사 발문 설계</b> 난도 높음.
-              </td>
-              <td>
-                사회과 기원이라 <b>절차만 남고 도덕 성찰 약화</b> 위험—원리 연결 분명히.
-              </td>
-              <td>
-                <b>결과주의로 치우침</b> 방지—규범/원리 검토 단계 분명히.
-              </td>
-              <td>
-                발달수준·논증기술에 따라 <b>인지적 과부하</b> 가능—발문 난이도 조절.
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">한 줄 수업 팁</th>
-              <td>
-                “사실은 맞는가? 이 원리를 <b>누구에게나</b> 적용해도 모순이 없는가?”를 반복 코칭.
-              </td>
-              <td>
-                토론 전에 <b>쟁점 유형화(사실/용어/가치)</b> 표로 시각화하여 합의 절차를 설계.
-              </td>
-              <td>
-                선택 기준을 3~4개로 제한하고 <b>가중치 매트릭스</b>로 비교 후 서술 정당화.
-              </td>
-              <td>
-                역할카드를 배분해 <b>역할채택</b>을 촉진하고, +1 수준의 반문을 준비.
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  <div class="app">
+    <div class="topbar">
+      <div class="title">도덕 4대 수업 모형 <span class="badge">HCR Batang</span></div>
+      <div class="controls">
+        <button class="btn" id="toSlides" data-active="true">슬라이드</button>
+        <button class="btn" id="toTable">비교표</button>
+        <button class="btn ghost" id="fs">전체 화면</button>
+        <button class="btn ghost" onclick="window.print()">인쇄</button>
       </div>
+    </div>
 
-      <div class="note" role="note">
-        참고(학술 전거 키워드): Metcalf(Values Education), Coombs &amp; Meux(가치분석), Oliver &amp; Shaver(Jurisprudential), Engle–Frankel(결정교육), Kohlberg(도덕적 딜레마 토론).
+    <div class="stage-wrap">
+      <div class="stage" id="stage">
+        <!-- 모드 A: 슬라이드 -->
+        <section class="mode active" id="mode-slides" aria-label="slides">
+          <div class="slides" id="slides">
+            <!-- Slide 1: 가치분석 -->
+            <article class="slide active" data-idx="0">
+              <div class="head">
+                <div>
+                  <div class="kicker">Value Analysis</div>
+                  <h1>가치분석 모형</h1>
+                </div>
+                <div class="note">Coombs & Meux 계열 · 국내: 가치원리 검사 + 사실 타당성</div>
+              </div>
+              <div class="cols">
+                <div class="card">
+                  <h2>목표 · 초점</h2>
+                  <ul>
+                    <li>개인의 <b>입장 정당화</b>: 사실 증거와 <b>보편화 가능한 가치원리</b>로 논증</li>
+                    <li>합리적·일관된 판단에 도달하기</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>전형적 절차</h2>
+                  <ul>
+                    <li>문제 제시 → <b>가치문제</b> 확인 → <b>사실 검증</b></li>
+                    <li><b>가치원리 검사</b>: 새 사례 / 포함관계 / 역할교환 / 보편적 결과</li>
+                    <li>입장 수정·의사결정 → 적용</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>잘 맞는 주제</h2>
+                  <ul>
+                    <li>생활·학급 맥락의 선택과 판단(정직↔배려, 휴대폰 규칙 등)</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>주의점</h2>
+                  <ul>
+                    <li>자료의 <b>중립성 전제</b>와 검사 질문 설계 난도 ↑ → 교사 발문 훈련 필요</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <!-- Slide 2: 법리(가치 갈등 해결) -->
+            <article class="slide" data-idx="1">
+              <div class="head">
+                <div>
+                  <div class="kicker">Jurisprudential Model</div>
+                  <h1>가치 갈등 해결(법리) 모형</h1>
+                </div>
+                <div class="note">Oliver & Shaver · 사회과 시민교육에서 발전</div>
+              </div>
+              <div class="cols">
+                <div class="card">
+                  <h2>목표 · 초점</h2>
+                  <ul>
+                    <li>공적 쟁점에서 <b>정의·규범·사실·가치</b>를 구분</li>
+                    <li>절차적 공정성을 통해 <b>합리적 합의</b> 도모</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>전형적 절차</h2>
+                  <ul>
+                    <li>사태 제시 → 관련 <b>규범·개념 명료화</b></li>
+                    <li><b>쟁점 유형화</b>: 사실/용어/가치</li>
+                    <li>입장 제시·반론·수정 → <b>잠정 합의</b>(절차 공정성)</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>잘 맞는 주제</h2>
+                  <ul>
+                    <li>표현의 자유, 환경·안전, 지역 공익 등 <b>공공정책 이슈</b></li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>주의점</h2>
+                  <ul>
+                    <li>원형이 사회과 모형 → <b>도덕 성찰</b>이 옅어질 위험 → 원리 연결 분명히</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <!-- Slide 3: 합리적 의사결정 -->
+            <article class="slide" data-idx="2">
+              <div class="head">
+                <div>
+                  <div class="kicker">Rational Decision</div>
+                  <h1>합리적 의사결정 모형</h1>
+                </div>
+                <div class="note">Engle–Frankel 결정교육 전통 수용 · 국내 개선안</div>
+              </div>
+              <div class="cols">
+                <div class="card">
+                  <h2>목표 · 초점</h2>
+                  <ul>
+                    <li>여러 <b>대안 비교</b>와 결과 예측, <b>기준 정립</b>으로 최선 선택</li>
+                    <li>도덕적 판단력·문제해결력 신장</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>전형적 절차</h2>
+                  <ul>
+                    <li>문제 제시·분석 → 관련 <b>규범 의미·타당성 검토</b>(연역/귀납)</li>
+                    <li>대안·결과 비교 → 선택·정당화 → 필요시 수정·잠정 결정</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>잘 맞는 주제</h2>
+                  <ul>
+                    <li>생활 규범 결정, 학급 규칙 개정, 온라인 행동 선택 등</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>주의점</h2>
+                  <ul>
+                    <li><b>결과주의로만</b> 흐르지 않도록 규범·원리 검토 단계 명확히</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <!-- Slide 4: 도덕적 토론(콜버그) -->
+            <article class="slide" data-idx="3">
+              <div class="head">
+                <div>
+                  <div class="kicker">Moral Discussion (Kohlberg)</div>
+                  <h1>도덕적 토론 수업 모형</h1>
+                </div>
+                <div class="note">도덕발달론(+1 전략) · 딜레마 토론</div>
+              </div>
+              <div class="cols">
+                <div class="card">
+                  <h2>목표 · 초점</h2>
+                  <ul>
+                    <li><b>판단력 수준 상승</b>: 상위 단계 접촉·역할채택·논증</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>전형적 절차</h2>
+                  <ul>
+                    <li>딜레마 제시 → 도입(문제 부각·왜 질문·상황 복잡화)</li>
+                    <li>심화(심층질문·역할채택·인접단계 논의) → 실천 동기 강화·확대 적용</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>잘 맞는 주제</h2>
+                  <ul>
+                    <li>정의·책임·배려의 <b>가치 충돌</b>이 있는 도덕 딜레마</li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <h2>주의점</h2>
+                  <ul>
+                    <li>학습자 발달수준·논증기술에 따라 <b>인지적 과부하</b> 가능 → 발문 난이도 조절</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="arrow left" id="prev" title="이전(←)">◀</div>
+          <div class="arrow right" id="next" title="다음(→)">▶</div>
+          <div class="nav" id="dots" aria-label="slide dots"></div>
+        </section>
+
+        <!-- 모드 B: 비교표 -->
+        <section class="mode" id="mode-table" aria-label="table">
+          <div class="table-wrap">
+            <h1>네 모형 핵심 비교</h1>
+            <table class="grid">
+              <thead>
+                <tr>
+                  <th style="width:12rem">모형</th>
+                  <th>토대·주요 학자</th>
+                  <th>목표/핵심 초점</th>
+                  <th>전형적 절차(요지)</th>
+                  <th>잘 맞는 주제</th>
+                  <th>주의점</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th><span class="tag">Value Analysis</span><br/>가치분석</th>
+                  <td>Coombs &amp; Meux 계열, 국내 도덕과에서 <b>가치 원리 검사(4)</b>와 <b>사실 타당성 탐색</b>을 핵심으로 정리·활용</td>
+                  <td>개인이 자신의 입장을 <b>사실 증거</b>와 <b>보편화 가능한 가치원리</b>로 정당화하여 <b>합리적 판단</b>에 도달</td>
+                  <td>문제 제시 → 가치문제 확인 → 사실 검증 → <b>가치원리 검사</b>(새 사례/포함관계/역할교환/보편적 결과) → 입장 수정·의사결정 → 적용</td>
+                  <td>생활·학급 맥락의 선택과 판단(정직↔배려, 휴대폰 규칙 등)</td>
+                  <td>‘자료의 중립성’ 전제와 <b>검사 질문 설계</b> 난도 높음(교사 발문 훈련 필요)</td>
+                </tr>
+                <tr>
+                  <th><span class="tag">Jurisprudential</span><br/>가치 갈등 해결(법리)</th>
+                  <td>Oliver &amp; Shaver의 법리적 탐구를 학교 수업에 맞게 재구성(사회과/시민교육에서 발전)</td>
+                  <td>공적 쟁점에서 <b>정의·규범·사실·가치</b>를 구분해 <b>절차의 공정성</b>으로 합리적 합의를 도모</td>
+                  <td>사태 제시 → 관련 규범·개념 명료화 → <b>사실/용어/가치</b> 쟁점 구분 → 입장 제시·반론·수정 → <b>잠정 합의</b></td>
+                  <td>표현의 자유, 환경·안전, 지역 공익 등 <b>공적 정책 이슈</b></td>
+                  <td>원형이 사회과 모형이라 절차만 남고 <b>도덕 성찰</b>이 옅어질 위험 → 도덕적 원리 연결 분명히</td>
+                </tr>
+                <tr>
+                  <th><span class="tag">Rational Decision</span><br/>합리적 의사결정</th>
+                  <td>Engle–Frankel 계열 결정교육 전통을 도덕과에 수용·개선(국내 개선안 제시)</td>
+                  <td><b>대안 비교–결과 예측–기준 정립</b>을 통해 <b>최선의 선택</b> 도출(도덕적 판단·문제해결력)</td>
+                  <td>문제 제시·분석 → 관련 규범의 의미·타당성 검토(연역/귀납) → 여러 대안과 결과 비교 → 선택·정당화 → 필요시 수정·잠정 결정</td>
+                  <td>생활 규범 결정, 학급 규칙 개정, 온라인 행동 선택 등 <b>선택지 비교형</b> 과제</td>
+                  <td><b>결과주의</b>로만 흐르지 않도록 규범·원리 검토 단계를 분명히 설계</td>
+                </tr>
+                <tr>
+                  <th><span class="tag">Moral Discussion</span><br/>도덕적 토론(콜버그)</th>
+                  <td>Kohlberg 도덕발달론(인지적 갈등·<b>+1 전략</b>) 기반의 딜레마 토론</td>
+                  <td><b>도덕판단력 수준 상승</b>(상위 단계 접촉·역할채택·논증)을 목표</td>
+                  <td>딜레마 제시 → 도입(문제 부각·왜 질문·상황 복잡화) → 심화(심층질문·역할채택·인접단계 논의) → <b>실천 동기 강화</b>·확대 적용</td>
+                  <td>정의·책임·배려의 충돌을 담은 <b>도덕 딜레마</b></td>
+                  <td>학습자 발달수준·논증기술에 따라 <b>인지적 과부하</b> 가능 → 발문 난이도 조절</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="card" style="margin-top:14px">
+              <h2 style="margin-top:.2em">빠르게 구분하는 요령</h2>
+              <ul style="font-size:var(--r)">
+                <li>개인 <b>선택의 정당화 훈련</b>이면 → <b>가치분석</b> (증거 + 원리 검사)</li>
+                <li><b>공적 쟁점의 공정 절차·합의</b>면 → <b>법리모형</b> (쟁점 유형화·합의 절차)</li>
+                <li><b>여러 대안 비교</b>로 최선 결정이면 → <b>합리적 의사결정</b> (대안–결과–기준 체계화)</li>
+                <li><b>딜레마로 판단수준 올리기</b>면 → <b>도덕적 토론</b> (인지적 갈등·역할채택)</li>
+              </ul>
+            </div>
+          </div>
+        </section>
       </div>
-      <p class="foot">Tip: F11로 풀스크린, 브라우저 확대(125~150%)가 발표에 적합합니다.</p>
     </div>
   </div>
+
+  <script>
+    // 모드 전환
+    const toSlides = document.getElementById('toSlides');
+    const toTable  = document.getElementById('toTable');
+    const modeSlides = document.getElementById('mode-slides');
+    const modeTable  = document.getElementById('mode-table');
+    function setMode(name){
+      const isSlides = name === 'slides';
+      modeSlides.classList.toggle('active', isSlides);
+      modeTable.classList.toggle('active', !isSlides);
+      toSlides.dataset.active = isSlides;
+      toTable.dataset.active  = !isSlides;
+      if(isSlides) location.hash = '#slides'; else location.hash = '#table';
+    }
+    toSlides.onclick = () => setMode('slides');
+    toTable.onclick  = () => setMode('table');
+
+    // 전체 화면
+    document.getElementById('fs').onclick = () => {
+      const el = document.getElementById('stage');
+      if(!document.fullscreenElement){ el.requestFullscreen?.(); }
+      else{ document.exitFullscreen?.(); }
+    };
+
+    // 슬라이드 네비게이션
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dots   = document.getElementById('dots');
+    let idx = 0;
+    function renderDots(){
+      dots.innerHTML = '';
+      slides.forEach((_,i)=>{
+        const d = document.createElement('div');
+        d.className = 'dot' + (i===idx? ' active' : '');
+        d.onclick = ()=> go(i);
+        dots.appendChild(d);
+      });
+    }
+    function go(n){
+      idx = (n+slides.length) % slides.length;
+      slides.forEach((s,i)=> s.classList.toggle('active', i===idx));
+      Array.from(dots.children).forEach((d,i)=> d.classList.toggle('active', i===idx));
+      location.hash = '#slides-' + (idx+1);
+    }
+    document.getElementById('prev').onclick = ()=> go(idx-1);
+    document.getElementById('next').onclick = ()=> go(idx+1);
+    window.addEventListener('keydown', (e)=>{
+      if(!modeSlides.classList.contains('active')) return;
+      if(e.key==='ArrowRight') go(idx+1);
+      if(e.key==='ArrowLeft')  go(idx-1);
+    });
+    renderDots();
+
+    // 해시 복원
+    (function(){
+      if(location.hash.startsWith('#table')) setMode('table');
+      const m = location.hash.match(/#slides-(\d+)/);
+      if(m){ go(parseInt(m[1],10)-1); setMode('slides'); }
+    })();
+  </script>
 </body>
-</html>"""
-path = "/mnt/data/도덕과_수업모형_비교표_presentation.html"
-with open(path, "w", encoding="utf-8") as f:
-    f.write(html)
-path
+</html>
